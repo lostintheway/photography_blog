@@ -3,14 +3,14 @@ import Image from "next/image";
 type FeatureType = {
   id: number;
   title: string;
-  imageSrc: string;
+  image_url: string;
 };
 
 export default function FeaturedWorks() {
   const featuredWorks: FeatureType[] = [
-    { id: 1, title: "Wedding Bliss", imageSrc: "/wedding.jpg" },
-    { id: 2, title: "Family Portraits", imageSrc: "/family.jpg" },
-    { id: 3, title: "Nature's Beauty", imageSrc: "/nature.jpg" },
+    { id: 1, title: "Wedding Bliss", image_url: "/wedding.jpg" },
+    { id: 2, title: "Family Portraits", image_url: "/family.jpg" },
+    { id: 3, title: "Nature's Beauty", image_url: "/nature.jpg" },
   ];
   return (
     <div className="bg-white">
@@ -28,7 +28,7 @@ export default function FeaturedWorks() {
             <div key={work.id} className="group relative">
               <div className="relative w-full h-80 bg-white rounded-lg overflow-hidden group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
                 <Image
-                  src={work.imageSrc}
+                  src={work.image_url}
                   alt={work.title}
                   layout="fill"
                   objectFit="cover"
