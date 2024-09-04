@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Open_Sans as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
+import Header from "./components/Header";
 
 export const metadata: Metadata = {
   title: "John Doe Photography",
@@ -26,6 +27,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+        <Header />
         {children}
       </body>
     </html>

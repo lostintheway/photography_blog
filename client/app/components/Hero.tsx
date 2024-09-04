@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <div className="relative bg-gray-900">
+    <div className="relative bg-gray-900 h-[calc(100vh-82px)]">
       <div className="absolute inset-0">
         <Image
           className="w-full h-full object-cover"
