@@ -7,12 +7,12 @@ export default function Hero() {
       <div className="absolute inset-0">
         <Image
           className="w-full h-full object-cover"
-          src="/hero-image.jpg"
+          src="/home.jpg"
           alt="Hero background"
           layout="fill"
           objectFit="cover"
         />
-        <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
+        <div className="absolute inset-0 bg-gray-900 opacity-60"></div>
       </div>
       <div className="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
         <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
