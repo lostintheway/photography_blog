@@ -1,55 +1,35 @@
-import fastify, { FastifyInstance } from "fastify";
-import fastifyMySQL from "@fastify/mysql";
-import fastifyJWT from "@fastify/jwt";
-import userRoutes from "./routes/users";
-import { config } from "dotenv";
-import portfolioRoutes from "./routes/portfolio";
-import { MySQLPool } from "@fastify/mysql";
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
 
-// if you only pass connectionString
-declare module "fastify" {
-  interface FastifyInstance {
-    mysql: MySQLPool;
-  }
-}
+import userRoutes from "./routes/userRoutes";
+import portfolioRoutes from "./routes/portfolioRoutes";
 
-config();
+dotenv.config();
+const app = express();
 
-const server: FastifyInstance = fastify();
+// Define allowed domains
+const allowedDomains = ["http://localhost:3000", "http://localhost:3005"]; // Replace with your domains
 
-// MySQL Plugin
-server.register(fastifyMySQL, {
-  connectionString: process.env.MYSQL_URI!,
+// Configure CORS middleware
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedDomains.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
+
+app.use(express.json());
+
+app.use("/users", userRoutes);
+app.use("/portfolios", portfolioRoutes);
+
+const PORT = process.env.PORT || 5123;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
-
-// JWT Plugin
-server.register(fastifyJWT, {
-  secret: process.env.JWT_SECRET,
-});
-
-// Auth Middleware
-server.decorate("authenticate", async (request, reply) => {
-  try {
-    await request.jwtVerify();
-  } catch (err) {
-    reply.send(err);
-  }
-});
-
-// Register routes
-server.register(userRoutes, { prefix: "/users" });
-
-server.register(portfolioRoutes, { prefix: "/portfolio" });
-
-// Start the server
-const start = async () => {
-  try {
-    await server.listen({ port: 5000 });
-    console.log("Server is running on http://localhost:5000");
-  } catch (err) {
-    console.error(err);
-    process.exit(1);
-  }
-};
-
-start();

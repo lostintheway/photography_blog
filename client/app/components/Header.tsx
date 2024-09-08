@@ -47,7 +47,9 @@ export default function Header() {
             </Link>
           </nav>
           <div className="hidden md:flex items-center">
-            <Button variant="default">Book Now</Button>
+            <Link href="/contact">
+              <Button variant="default">Book Now</Button>
+            </Link>
           </div>
           <div className="md:hidden">
             <Button

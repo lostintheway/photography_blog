@@ -3,9 +3,10 @@ import "./globals.css";
 import { Open_Sans as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import Header from "./components/Header";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: "John Doe Photography",
+  title: "Precious Memories Photography",
   description: "Capturing life's moments through the lens",
 };
 
@@ -27,6 +28,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+        <Toaster />
         <Header />
         {children}
       </body>
