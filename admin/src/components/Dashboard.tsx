@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, Moon, Sun } from "lucide-react";
 import { useTheme } from "./theme-provider";
+import Sidebar from "./Sidebar";
+import { Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -41,54 +43,15 @@ const Dashboard = () => {
       {/* Main content area with sidebar */}
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <aside
-          className={`bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-50 w-64 p-4 transition-all duration-300 ease-in-out transform ${
-            sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } absolute md:relative h-full z-10`}
-        >
-          <nav>
-            <ul className="space-y-2">
-              <li>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start hover:bg-purple-100 dark:hover:bg-purple-900"
-                >
-                  Home
-                </Button>
-              </li>
-              <li>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start hover:bg-purple-100 dark:hover:bg-purple-900"
-                >
-                  Profile
-                </Button>
-              </li>
-              <li>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start hover:bg-purple-100 dark:hover:bg-purple-900"
-                >
-                  Settings
-                </Button>
-              </li>
-            </ul>
-          </nav>
-        </aside>
+        <Sidebar sidebarOpen={sidebarOpen} />
 
         {/* Main content */}
         <main
-          className={`flex-1 p-4 overflow-auto transition-all duration-300 ease-in-out ${
-            sidebarOpen ? "md:ml-64" : ""
+          className={`flex-1 overflow-auto transition-all duration-300 ease-in-out ${
+            sidebarOpen ? "md:ml-64" : "ml-0"
           }`}
         >
-          <h2 className="text-2xl font-bold mb-4 text-purple-500">
-            Welcome to Your Dashboard
-          </h2>
-          <p>
-            This is where your main content would go. You can add charts,
-            tables, or any other components here.
-          </p>
+          <Outlet />
         </main>
       </div>
     </div>
@@ -96,3 +59,11 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+/* <h2 className="text-2xl font-bold mb-4 text-purple-500">
+            Welcome to Your Dashboard
+          </h2>
+          <p>
+            This is where your main content would go. You can add charts,
+            tables, or any other components here.
+          </p> */

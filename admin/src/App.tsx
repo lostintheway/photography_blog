@@ -1,8 +1,20 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/Dashboard";
+import GalleryPage from "./pages/GalleryPage";
+import PortfolioPage from "./pages/PortfolioPage";
 
 function App() {
-  return <Dashboard />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="" element={<Dashboard />}>
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/portfolio" element={<PortfolioPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
