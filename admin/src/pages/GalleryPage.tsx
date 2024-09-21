@@ -15,6 +15,7 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import axios from "axios";
 import { Upload } from "lucide-react";
+import { BASE_URL } from "@/api/api";
 
 const gallerySchema = z.object({
   id: z.number().optional(),
@@ -70,7 +71,7 @@ const GalleryPage: React.FC = () => {
     formData.append("image", file);
 
     try {
-      const response = await axios.post("/upload", formData, {
+      const response = await axios.post(BASE_URL + "/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setValue("imageSrc", response.data.url);

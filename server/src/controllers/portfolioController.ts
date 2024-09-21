@@ -5,7 +5,7 @@ export const createPortfolio = async (req: any, res: Response) => {
   const { title, category, imageSrc } = req.body;
   try {
     const [rows] = await db.execute(
-      "INSERT INTO portfolios (title, category, imageSrc, user_id) VALUES (?, ?, ?, ?)",
+      "INSERT INTO portfolios (title, category, imageSrc) VALUES (?, ?, ?)",
       [title, category, imageSrc, req.user.id]
     );
     res.status(201).send("Portfolio created");
@@ -17,8 +17,7 @@ export const createPortfolio = async (req: any, res: Response) => {
 export const getPortfolios = async (req: any, res: Response) => {
   try {
     const [rows] = await db.execute(
-      "SELECT * FROM portfolios WHERE user_id = ?",
-      [req.user.id]
+      "SELECT * FROM portfolios ORDER BY id DESC"
     );
     res.json(rows);
   } catch (error) {

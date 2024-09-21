@@ -4,6 +4,8 @@ import cors from "cors";
 
 import userRoutes from "./routes/userRoutes";
 import portfolioRoutes from "./routes/portfolioRoutes";
+import galleryRoutes from "./routes/galleryRoutes";
+import uploadRoutes from "./routes/uploadRoutes";
 
 dotenv.config();
 const app = express();
@@ -26,10 +28,15 @@ app.use(
 
 app.use(express.json());
 
-app.use("/users", userRoutes);
-app.use("/portfolios", portfolioRoutes);
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+app.use("/api/users", userRoutes);
+app.use("/api/portfolios", portfolioRoutes);
+app.use("/api/gallery", galleryRoutes);
+app.use("/upload", uploadRoutes);
 
 const PORT = process.env.PORT || 5123;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

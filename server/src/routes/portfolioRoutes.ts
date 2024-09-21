@@ -7,7 +7,7 @@ import { authenticateToken } from "../middlewares/authMiddleware";
 
 const portfolioRoutes = Router();
 
-portfolioRoutes.post("/create", authenticateToken, createPortfolio);
+portfolioRoutes.post("/", authenticateToken, createPortfolio);
 portfolioRoutes.get("/", authenticateToken, getPortfolios);
 
 export default portfolioRoutes;
