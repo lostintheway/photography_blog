@@ -7,6 +7,7 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
 import { BASE_URL } from "@/api/api";
+import { useNavigate } from "react-router-dom";
 
 const registerSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -25,6 +26,8 @@ const RegisterPage: React.FC = () => {
     resolver: zodResolver(registerSchema),
   });
 
+  const navigate = useNavigate();
+
   const onSubmit: SubmitHandler<Register> = async (registerData) => {
     try {
       const response = await axios.post(
@@ -33,6 +36,7 @@ const RegisterPage: React.FC = () => {
       );
       console.log(response.data);
       alert("Registration successful");
+      navigate("/login");
     } catch (error: unknown) {
       if (error instanceof Error) {
         alert(`Error registering: ${error.message}`);

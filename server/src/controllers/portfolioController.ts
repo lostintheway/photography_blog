@@ -12,7 +12,7 @@ export const createPortfolio = async (req: any, res: Response) => {
     category: z.enum(["wedding", "portrait", "nature"], {
       required_error: "Please select a category",
     }),
-    imageSrc: z.string().url(),
+    imageSrc: z.string().min(1, "ImageSrc is required"),
   });
 
   const result = createPortfolioSchema.safeParse(req.body);
@@ -45,5 +45,23 @@ export const getPortfolios = async (req: any, res: Response) => {
     res.json(rows);
   } catch (error) {
     res.status(500).send("Error fetching portfolios");
+  }
+};
+
+// delete portfolio
+export const deletePortfolio = async (req: any, res: Response) => {
+  const { id } = req.params;
+  try {
+    const [result] = await db.execute<ResultSetHeader>(
+      "DELETE FROM portfolios WHERE id = ?",
+      [id]
+    );
+    if (result.affectedRows === 1) {
+      res.status(200).send("Portfolio deleted successfully");
+    } else {
+      res.status(404).send("Portfolio not found");
+    }
+  } catch (error) {
+    res.status(500).send("Error deleting portfolio");
   }
 };

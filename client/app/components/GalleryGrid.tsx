@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { BASE_URL } from "@/constants/constants";
 
 type GalleryItem = {
   id: number;
@@ -40,7 +41,7 @@ export default function GalleryGrid({ initialItems }: GalleryGridProps) {
             onClick={() => openCarousel(index)}
           >
             <Image
-              src={item.imageSrc}
+              src={BASE_URL + "/" + item.imageSrc}
               alt={item.title}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
@@ -54,19 +55,22 @@ export default function GalleryGrid({ initialItems }: GalleryGridProps) {
         <DialogContent className="max-w-7xl w-full bg-black">
           <Carousel className="w-full max-h-[80vh]">
             <CarouselContent>
-              {initialItems.map((item, index) => (
-                <CarouselItem key={item.id}>
-                  <div className="flex aspect-video items-center justify-center p-6">
-                    <Image
-                      src={item.imageSrc}
-                      alt={item.title}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 80vw"
-                      className="object-contain"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
+              {initialItems.map((item, index) => {
+                const imgUrl = BASE_URL + "/" + item.imageSrc;
+                return (
+                  <CarouselItem key={item.id}>
+                    <div className="flex aspect-video items-center justify-center p-6">
+                      <Image
+                        src={imgUrl}
+                        alt={item.title}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 80vw"
+                        className="object-contain"
+                      />
+                    </div>
+                  </CarouselItem>
+                );
+              })}
             </CarouselContent>
             <CarouselPrevious />
             <CarouselNext />

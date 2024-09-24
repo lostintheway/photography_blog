@@ -5,6 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import axios from "axios";
+import { BASE_URL } from "@/api/api";
+import { useNavigate } from "react-router-dom";
 
 const loginSchema = z.object({
   email: z.string().min(1, "Email is required"),
@@ -21,13 +24,21 @@ const LoginPage: React.FC = () => {
   } = useForm<Login>({
     resolver: zodResolver(loginSchema),
   });
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Login> = async (login) => {
     try {
-      // Do something with the login data
-      console.log("Logging in with:", login);
-    } catch (error) {
-      console.error("Error logging in:", error);
+      const response = await axios.post<{
+        token: string;
+      }>(BASE_URL + "/api/users/login", login);
+      localStorage.setItem("token", response.data.token);
+      alert("Login successful");
+      navigate("/admin/gallery");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(`Error logging in: ${error.message}`);
+      }
+      console.log(error);
     }
   };
 

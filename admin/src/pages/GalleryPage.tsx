@@ -38,12 +38,28 @@ const GalleryPage: React.FC = () => {
     resolver: zodResolver(gallerySchema),
   });
 
-  const imageSrc = watch("imageSrc");
+  // fetch useEffect for gallery
+  React.useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const response = await axiosInstance.get("/api/gallery");
+        setGalleries(response.data);
+      } catch (error) {
+        console.error("Error fetching gallery:", error);
+      }
+    };
+    fetchGallery();
+  }, []);
+
+  const imageSrc = watch("imageSrc")
+    ? `${BASE_URL}/${watch("imageSrc")}`
+    : undefined;
 
   const onSubmit: SubmitHandler<Gallery> = async (gallery) => {
+    console.log(gallery);
     try {
-      const response = await axiosInstance.post("/api/gallery", gallery);
-      setGalleries([...galleries, response.data]);
+      await axiosInstance.post("/api/gallery", gallery);
+      setGalleries([...galleries, gallery]);
       reset();
     } catch (error) {
       console.error("Error adding gallery:", error);
@@ -170,7 +186,7 @@ const GalleryPage: React.FC = () => {
                     <TableCell>{gallery.title}</TableCell>
                     <TableCell>
                       <img
-                        src={gallery.imageSrc}
+                        src={BASE_URL + "/" + gallery.imageSrc}
                         alt={gallery.title}
                         className="w-20 h-20 object-cover rounded-md"
                       />

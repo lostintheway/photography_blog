@@ -53,7 +53,7 @@ router.post(
     }
 
     // Construct the URL (adjust based on your server setup)
-    const url = `/uploads/${req.file.filename}`;
+    const url = `images/${req.file.filename}`;
 
     res.json({ url: url });
   }

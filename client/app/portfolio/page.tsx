@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/constants/constants";
 import PortfolioGrid from "../components/PortfolioGrid";
 
 export const metadata = {
@@ -7,27 +8,10 @@ export const metadata = {
 
 async function getPortfolioItems() {
   // Simulated API call
-  return [
-    {
-      id: 1,
-      title: "Summer Wedding",
-      category: "wedding",
-      imageSrc: "/images/portfolio/wedding1.jpg",
-    },
-    {
-      id: 2,
-      title: "Mountain Landscapes",
-      category: "nature",
-      imageSrc: "/images/portfolio/nature1.jpg",
-    },
-    {
-      id: 3,
-      title: "Corporate Headshots",
-      category: "portrait",
-      imageSrc: "/images/portfolio/portrait1.jpg",
-    },
-    // Add more items as needed
-  ];
+  const response = await fetch(BASE_URL + "/api/portfolios");
+  const data = await response.json();
+  console.log("Portfolio response:", data);
+  return data;
 }
 
 export default async function PortfolioPage() {

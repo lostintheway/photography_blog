@@ -48,13 +48,29 @@ const PortfolioPage: React.FC = () => {
     resolver: zodResolver(portfolioSchema),
   });
 
-  const imageSrc = watch("imageSrc");
+  // fetch useEffect for portfolio
+  React.useEffect(() => {
+    const fetchPortfolio = async () => {
+      try {
+        const response = await axiosInstance.get("/api/portfolios");
+        setPortfolioItems(response.data);
+      } catch (error) {
+        console.error("Error fetching portfolio:", error);
+      }
+    };
+    fetchPortfolio();
+  }, []);
+
+  const imageSrc = watch("imageSrc")
+    ? `${BASE_URL}/${watch("imageSrc")}`
+    : undefined;
 
   const onSubmit: SubmitHandler<Portfolio> = async (item) => {
     try {
-      const response = await axiosInstance.post("/api/portfolio", item);
-      setPortfolioItems([...portfolioItems, response.data]);
+      await axiosInstance.post("/api/portfolios", item);
+      setPortfolioItems([...portfolioItems, item]);
       reset();
+      alert("Portfolio item added successfully");
     } catch (error) {
       console.error("Error adding portfolio item:", error);
     }
@@ -62,8 +78,9 @@ const PortfolioPage: React.FC = () => {
 
   const onDelete = async (id: number) => {
     try {
-      await axiosInstance.delete(`/api/portfolio/${id}`);
+      await axiosInstance.delete(`/api/portfolios/${id}`);
       setPortfolioItems(portfolioItems.filter((item) => item.id !== id));
+      alert("Portfolio item deleted successfully");
     } catch (error) {
       console.error("Error deleting portfolio item:", error);
     }
@@ -207,7 +224,7 @@ const PortfolioPage: React.FC = () => {
                     </TableCell>
                     <TableCell>
                       <img
-                        src={item.imageSrc}
+                        src={BASE_URL + "/" + item.imageSrc}
                         alt={item.title}
                         className="w-20 h-20 object-cover rounded-md"
                       />

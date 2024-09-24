@@ -18,11 +18,17 @@ export const createGallery = async (req: any, res: Response) => {
     return res.status(400).send(result.error.issues);
   }
 
+  console.log({
+    title,
+    imageSrc,
+  });
+
   try {
-    const [result] = await db.execute<ResultSetHeader>(
-      "INSERT INTO galleries (title, imageSrc, userId) VALUES (?, ?, ?)",
-      [title, imageSrc, req.user.id]
+    const query = db.format(
+      "INSERT INTO galleries (title, imageSrc) VALUES (?, ?)",
+      [title, imageSrc]
     );
+    const [result] = await db.execute<ResultSetHeader>(query);
 
     if (result.affectedRows === 1) {
       res.status(201).send("Gallery created successfully");
@@ -40,5 +46,23 @@ export const getGalleries = async (req: any, res: Response) => {
     res.json(rows);
   } catch (error) {
     res.status(500).send("Error fetching galleries");
+  }
+};
+
+// delete gallery
+export const deleteGallery = async (req: any, res: Response) => {
+  const { id } = req.params;
+  try {
+    const [result] = await db.execute<ResultSetHeader>(
+      "DELETE FROM galleries WHERE id = ?",
+      [id]
+    );
+    if (result.affectedRows === 1) {
+      res.status(200).send("Gallery deleted successfully");
+    } else {
+      res.status(404).send("Gallery not found");
+    }
+  } catch (error) {
+    res.status(500).send("Error deleting gallery");
   }
 };

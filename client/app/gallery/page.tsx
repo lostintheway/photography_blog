@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/constants/constants";
 import GalleryGrid from "../components/GalleryGrid";
 
 export const metadata = {
@@ -6,21 +7,10 @@ export const metadata = {
 };
 
 async function getGalleryItems() {
-  // Simulated API call
-  return [
-    {
-      id: 1,
-      title: "Sunset Wedding",
-      imageSrc: "/images/gallery/wedding1.jpg",
-    },
-    { id: 2, title: "Mountain Vista", imageSrc: "/images/gallery/nature1.jpg" },
-    {
-      id: 3,
-      title: "Corporate Portrait",
-      imageSrc: "/images/gallery/portrait1.jpg",
-    },
-    // Add more items as needed
-  ];
+  const response = await fetch(BASE_URL + "/api/gallery");
+  const data = await response.json();
+  console.log("Gallery response:", data);
+  return data;
 }
 
 export default async function GalleryPage() {

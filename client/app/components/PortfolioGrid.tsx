@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { BASE_URL } from "@/constants/constants";
 
 type PortfolioItem = {
   id: number;
@@ -56,7 +57,7 @@ export default function PortfolioGrid({ initialItems }: PortfolioGridProps) {
           >
             <div className="relative w-full h-48 sm:h-56 md:h-64 bg-white rounded-lg overflow-hidden group-hover:shadow-lg transition-shadow duration-300 ease-in-out">
               <Image
-                src={item.imageSrc}
+                src={BASE_URL + "/" + item.imageSrc}
                 alt={item.title}
                 fill
                 style={{ objectFit: "cover" }}
