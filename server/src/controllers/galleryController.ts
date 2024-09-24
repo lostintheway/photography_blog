@@ -18,11 +18,6 @@ export const createGallery = async (req: any, res: Response) => {
     return res.status(400).send(result.error.issues);
   }
 
-  console.log({
-    title,
-    imageSrc,
-  });
-
   try {
     const query = db.format(
       "INSERT INTO galleries (title, imageSrc) VALUES (?, ?)",

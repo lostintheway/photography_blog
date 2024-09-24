@@ -9,7 +9,6 @@ export const metadata = {
 async function getGalleryItems() {
   const response = await fetch(BASE_URL + "/api/gallery");
   const data = await response.json();
-  console.log("Gallery response:", data);
   return data;
 }
 

@@ -30,11 +30,7 @@ const RegisterPage: React.FC = () => {
 
   const onSubmit: SubmitHandler<Register> = async (registerData) => {
     try {
-      const response = await axios.post(
-        BASE_URL + "/api/users/register",
-        registerData
-      );
-      console.log(response.data);
+      await axios.post(BASE_URL + "/api/users/register", registerData);
       alert("Registration successful");
       navigate("/login");
     } catch (error: unknown) {

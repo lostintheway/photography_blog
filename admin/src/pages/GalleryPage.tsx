@@ -56,7 +56,6 @@ const GalleryPage: React.FC = () => {
     : undefined;
 
   const onSubmit: SubmitHandler<Gallery> = async (gallery) => {
-    console.log(gallery);
     try {
       await axiosInstance.post("/api/gallery", gallery);
       setGalleries([...galleries, gallery]);

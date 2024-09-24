@@ -10,7 +10,6 @@ async function getPortfolioItems() {
   // Simulated API call
   const response = await fetch(BASE_URL + "/api/portfolios");
   const data = await response.json();
-  console.log("Portfolio response:", data);
   return data;
 }
 
