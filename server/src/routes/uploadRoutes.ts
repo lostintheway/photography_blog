@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import multer from "multer";
 import path from "path";
+import { authenticateToken } from "../middlewares/authMiddleware";
 
 const router = express.Router();
 
@@ -42,15 +43,20 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Handle POST request to /upload
-router.post("/", upload.single("image"), (req: Request, res: Response) => {
-  if (!req.file) {
-    return res.status(400).send("No file uploaded.");
+router.post(
+  "/",
+  authenticateToken,
+  upload.single("image"),
+  (req: Request, res: Response) => {
+    if (!req.file) {
+      return res.status(400).send("No file uploaded.");
+    }
+
+    // Construct the URL (adjust based on your server setup)
+    const url = `/uploads/${req.file.filename}`;
+
+    res.json({ url: url });
   }
-
-  // Construct the URL (adjust based on your server setup)
-  const url = `/uploads/${req.file.filename}`;
-
-  res.json({ url: url });
-});
+);
 
 export default router;

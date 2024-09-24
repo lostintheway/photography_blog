@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
+import { BASE_URL } from "@/api/api";
 
 const registerSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -26,8 +27,12 @@ const RegisterPage: React.FC = () => {
 
   const onSubmit: SubmitHandler<Register> = async (registerData) => {
     try {
-      const response = await axios.post("/api/register", registerData);
+      const response = await axios.post(
+        BASE_URL + "/api/users/register",
+        registerData
+      );
       console.log(response.data);
+      alert("Registration successful");
     } catch (error: unknown) {
       if (error instanceof Error) {
         alert(`Error registering: ${error.message}`);

@@ -33,8 +33,8 @@ export const register = async (req: Request, res: Response) => {
     } else {
       res.status(500).send("Failed to create user");
     }
-  } catch (error) {
-    if (error.code === "ER_DUP_ENTRY") {
+  } catch (error: unknown) {
+    if (error instanceof Error && error.message.includes("ER_DUP_ENTRY")) {
       res.status(409).send("Email already exists");
     } else {
       console.error("Error registering user:", error);
