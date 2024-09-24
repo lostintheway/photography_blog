@@ -38,7 +38,7 @@ export default function PortfolioGrid({ initialItems }: PortfolioGridProps) {
             key={category}
             onClick={() => setFilter(category)}
             variant={filter === category ? "default" : "outline"}
-            className={`mb-2 transition-all duration-300 ease-in-out transform hover:scale-105 ${
+            className={`mb-2 transition-all duration-300 ease-in-out transform hover:scale-110 ${
               filter === category ? "animate-scaleIn" : ""
             }`}
           >

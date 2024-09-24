@@ -24,10 +24,8 @@ type GalleryGridProps = {
 
 export default function GalleryGrid({ initialItems }: GalleryGridProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const openCarousel = (index: number) => {
-    setSelectedIndex(index);
     setIsOpen(true);
   };
 
@@ -55,7 +53,7 @@ export default function GalleryGrid({ initialItems }: GalleryGridProps) {
         <DialogContent className="max-w-7xl w-full bg-black">
           <Carousel className="w-full max-h-[80vh]">
             <CarouselContent>
-              {initialItems.map((item, index) => {
+              {initialItems.map((item) => {
                 const imgUrl = BASE_URL + "/" + item.imageSrc;
                 return (
                   <CarouselItem key={item.id}>
