@@ -13,9 +13,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import axios from "axios";
 import { Upload } from "lucide-react";
-import { BASE_URL } from "@/api/api";
+import axiosInstance, { BASE_URL } from "@/api/api";
 
 const gallerySchema = z.object({
   id: z.number().optional(),
@@ -43,7 +42,7 @@ const GalleryPage: React.FC = () => {
 
   const onSubmit: SubmitHandler<Gallery> = async (gallery) => {
     try {
-      const response = await axios.post("/api/gallery", gallery);
+      const response = await axiosInstance.post("/api/gallery", gallery);
       setGalleries([...galleries, response.data]);
       reset();
     } catch (error) {
@@ -53,7 +52,7 @@ const GalleryPage: React.FC = () => {
 
   const onDelete = async (id: number) => {
     try {
-      await axios.delete(`/api/gallery/${id}`);
+      await axiosInstance.delete(`/api/gallery/${id}`);
       setGalleries(galleries.filter((gallery) => gallery.id !== id));
     } catch (error) {
       console.error("Error deleting gallery:", error);
@@ -71,9 +70,13 @@ const GalleryPage: React.FC = () => {
     formData.append("image", file);
 
     try {
-      const response = await axios.post(BASE_URL + "/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axiosInstance.post(
+        BASE_URL + "/upload",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       setValue("imageSrc", response.data.url);
     } catch (error) {
       console.error("Error uploading image:", error);

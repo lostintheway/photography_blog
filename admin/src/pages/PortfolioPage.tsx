@@ -20,9 +20,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import axios from "axios";
 import { Upload } from "lucide-react";
-import { BASE_URL } from "@/api/api";
+import axiosInstance, { BASE_URL } from "@/api/api";
 
 const portfolioSchema = z.object({
   id: z.number().optional(),
@@ -53,7 +52,7 @@ const PortfolioPage: React.FC = () => {
 
   const onSubmit: SubmitHandler<Portfolio> = async (item) => {
     try {
-      const response = await axios.post("/api/portfolio", item);
+      const response = await axiosInstance.post("/api/portfolio", item);
       setPortfolioItems([...portfolioItems, response.data]);
       reset();
     } catch (error) {
@@ -63,7 +62,7 @@ const PortfolioPage: React.FC = () => {
 
   const onDelete = async (id: number) => {
     try {
-      await axios.delete(`/api/portfolio/${id}`);
+      await axiosInstance.delete(`/api/portfolio/${id}`);
       setPortfolioItems(portfolioItems.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Error deleting portfolio item:", error);
@@ -81,9 +80,13 @@ const PortfolioPage: React.FC = () => {
     formData.append("image", file);
 
     try {
-      const response = await axios.post(BASE_URL + "/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axiosInstance.post(
+        BASE_URL + "/upload",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       setValue("imageSrc", response.data.url);
     } catch (error) {
       console.error("Error uploading image:", error);
